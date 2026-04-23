@@ -84,6 +84,12 @@ public class SensorResource {
         return Response.status(Response.Status.CREATED).entity(response).build();
 
     }
+    
+    @Path("/{sensorId}/readings")
+    public SensorReadingResource getSensorReadingResource(@PathParam("sensorId") String sensorId)
+    {
+        return new SensorReadingResource(sensorId);
+    }
 
     private Map<String, String> errorBody(String message) {
         Map<String, String> body = new HashMap<>();
