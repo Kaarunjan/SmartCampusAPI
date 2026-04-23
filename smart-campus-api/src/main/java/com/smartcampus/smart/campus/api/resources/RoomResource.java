@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.logging.Logger;
 /**
  *
  * @author Karunyan
@@ -22,11 +23,13 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RoomResource {
     
+    private static final Logger LOGGER = Logger.getLogger(RoomResource.class.getName());
     private final DataStore store = DataStore.getInstance();
 
     // GET /api/v1/rooms
     @GET
     public Response getAllRooms() {
+        LOGGER.info("Fetching all rooms from the data store");
         return Response.ok(store.getRooms().values()).build();
     }
 
@@ -34,6 +37,7 @@ public class RoomResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createRoom(Room room) {
+        LOGGER.info("Validatinga and adding the rooms to data store");
         if (room == null)
         {
             return Response.status(Response.Status.BAD_REQUEST).
@@ -70,6 +74,8 @@ public class RoomResource {
     @DELETE
     @Path("/{roomId}")
     public Response deleteRoom(@PathParam("roomId") String roomId) {
+        LOGGER.info("Processing the action for delete");
+        
         Room room = store.getRooms().get(roomId);
         if (room == null) {
             return Response.status(Response.Status.NOT_FOUND)

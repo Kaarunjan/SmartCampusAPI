@@ -81,13 +81,15 @@ public class SensorReadingResource {
     }
 
     @GET
-    public Response getResponseHistory() {
+    public Response getResponseHistory() 
+    {
         List<SensorReading> readings = store.getSensorReadings()
                 .getOrDefault(this.sensorId, new ArrayList<>());
         return Response.ok(readings).build();
     }
 
-    private Map<String, String> errorBody(String message) {
+    private Map<String, String> errorBody(String message) 
+    {
         Map<String, String> body = new HashMap<>();
         body.put("error", message);
         return body;

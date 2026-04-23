@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,9 +27,13 @@ import javax.ws.rs.core.Response;
 public class SensorResource {
 
     private final DataStore store = DataStore.getInstance();
+    
+    private static final Logger LOGGER = Logger.getLogger(SensorResource.class.getName());
 
     @GET
     public Response getAllSensors(@QueryParam("type") String type) {
+        LOGGER.info("Fetching all sensors from the data store");
+        
         Collection<Sensor> allSensors = store.getSensors().values();
 
         // If no type is provided in the URL, return all sensors
@@ -51,6 +56,7 @@ public class SensorResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createSensor(Sensor sensor) {
+        LOGGER.info("Validating and adding sensors to data store");
         if (sensor == null) {
             return Response.status(Response.Status.BAD_REQUEST).
                     entity(errorBody("Invalid JSON request or the body is empty")).
@@ -88,6 +94,7 @@ public class SensorResource {
     @Path("/{sensorId}/readings")
     public SensorReadingResource getSensorReadingResource(@PathParam("sensorId") String sensorId)
     {
+        LOGGER.info("Fetching all sensors reads value from the data store");
         return new SensorReadingResource(sensorId);
     }
 
