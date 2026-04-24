@@ -17,6 +17,8 @@ public class SensorReading {
     private long timestamp; // Epoch time (ms) when the reading was captured
     private double value;
     
+    public SensorReading () {}
+    
     public SensorReading(String id, long timestamp, double value)
     {
         this.id = id;
